@@ -1,0 +1,40 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Spec Uploader",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://wcebawczidhooqpvnsug.functions.supabase.co"
+    }
+  ],
+  "paths": {
+    "/uploadOpenAPISpec": {
+      "post": {
+        "summary": "Upload or overwrite GPT plugin spec",
+        "operationId": "uploadOpenAPISpec",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["filename", "content"],
+                "properties": {
+                  "filename": { "type": "string" },
+                  "content": { "type": "string", "description": "Raw JSON content as string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded"
+          }
+        }
+      }
+    }
+  }
+}

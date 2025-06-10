@@ -1,0 +1,23 @@
+import json
+
+LOCAL_FILENAME = "final_valid_openapi_spec.json"
+
+def load_local_spec():
+    with open(LOCAL_FILENAME, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def analyze_spec(spec_json):
+    print("\n--- 🔍 Analyzing Spec ---")
+    if "paths" in spec_json:
+        print(f"Found {len(spec_json['paths'])} paths in the spec.")
+        for path in spec_json["paths"]:
+            print(f" - {path}")
+    else:
+        print("⚠️ No 'paths' field found in spec.")
+
+if __name__ == "__main__":
+    try:
+        spec = load_local_spec()
+        analyze_spec(spec)
+    except Exception as e:
+        print("💥 Error during processing:", str(e))

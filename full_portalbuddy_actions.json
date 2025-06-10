@@ -1,0 +1,284 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PortalBuddy Full GPT Plugin",
+    "version": "1.0.0",
+    "description": "Unified spec with backend, frontend, self-editing, and automation capabilities."
+  },
+  "servers": [
+    {
+      "url": "https://wcebawczidhooqpvnsug.supabase.co/rest/v1"
+    },
+    {
+      "url": "https://wcebawczidhooqpvnsug.functions.supabase.co"
+    }
+  ],
+  "paths": {
+    "/uploadOpenAPISpec": {
+      "post": {
+        "summary": "Upload or overwrite GPT plugin spec",
+        "operationId": "uploadOpenAPISpec",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "filename",
+                  "content"
+                ],
+                "properties": {
+                  "filename": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Raw JSON content as string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded"
+          }
+        }
+      }
+    },
+    "/records/{table}": {
+      "post": {
+        "summary": "Create a record",
+        "operationId": "createRecord",
+        "parameters": [
+          {
+            "name": "table",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "description": "Fields to insert"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Record created"
+          }
+        }
+      }
+    },
+    "/records/{table}/update": {
+      "post": {
+        "summary": "Update a record",
+        "operationId": "updateRecord",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "table",
+                  "match",
+                  "updates"
+                ],
+                "properties": {
+                  "table": {
+                    "type": "string"
+                  },
+                  "match": {
+                    "type": "object"
+                  },
+                  "updates": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Record updated"
+          }
+        }
+      }
+    },
+    "/tables/create": {
+      "post": {
+        "summary": "Create a new table",
+        "operationId": "createTables",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "table",
+                  "columns"
+                ],
+                "properties": {
+                  "table": {
+                    "type": "string"
+                  },
+                  "columns": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "type"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "primary": {
+                          "type": "boolean"
+                        },
+                        "unique": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Table created"
+          }
+        }
+      }
+    },
+    "/functions/invoke": {
+      "post": {
+        "summary": "Invoke a Supabase Edge Function",
+        "operationId": "invokeEdgeFunction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "functionName"
+                ],
+                "properties": {
+                  "functionName": {
+                    "type": "string"
+                  },
+                  "payload": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edge Function invoked"
+          }
+        }
+      }
+    },
+    "/records/{table}/delete": {
+      "post": {
+        "summary": "Delete record",
+        "operationId": "deleteRecord",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "table",
+                  "match"
+                ],
+                "properties": {
+                  "table": {
+                    "type": "string"
+                  },
+                  "match": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Record deleted"
+          }
+        }
+      }
+    },
+    "/ui/components/generate": {
+      "post": {
+        "summary": "Generate frontend components",
+        "operationId": "generateComponents",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "componentType"
+                ],
+                "properties": {
+                  "componentType": {
+                    "type": "string",
+                    "example": "form/grid/button"
+                  },
+                  "props": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Component generated"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

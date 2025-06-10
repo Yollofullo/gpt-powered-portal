@@ -1,0 +1,178 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Portal Action Executor",
+    "version": "1.0.0",
+    "description": "OpenAPI spec for GPT to perform actions in Supabase: create/update records, define tables, generate components."
+  },
+  "servers": [
+    {
+      "url": "https://wcebawczidhooqpvnsug.supabase.co/rest/v1"
+    }
+  ],
+  "paths": {
+    "/records/{table}": {
+      "post": {
+        "summary": "Create a record",
+        "operationId": "createRecord",
+        "parameters": [
+          {
+            "name": "table",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "description": "Fields to insert"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Record created"
+          }
+        }
+      }
+    },
+    "/records/{table}/update": {
+      "post": {
+        "summary": "Update a record",
+        "operationId": "updateRecord",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "table",
+                  "match",
+                  "updates"
+                ],
+                "properties": {
+                  "table": {
+                    "type": "string"
+                  },
+                  "match": {
+                    "type": "object"
+                  },
+                  "updates": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Record updated"
+          }
+        }
+      }
+    },
+    "/tables/create": {
+      "post": {
+        "summary": "Create a new table",
+        "operationId": "createTables",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "table",
+                  "columns"
+                ],
+                "properties": {
+                  "table": {
+                    "type": "string"
+                  },
+                  "columns": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "type"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "primary": {
+                          "type": "boolean"
+                        },
+                        "unique": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Table created"
+          }
+        }
+      }
+    },
+    "/functions/invoke": {
+      "post": {
+        "summary": "Invoke a Supabase Edge Function",
+        "operationId": "invokeEdgeFunction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "functionName"
+                ],
+                "properties": {
+                  "functionName": {
+                    "type": "string"
+                  },
+                  "payload": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edge Function invoked"
+          }
+        }
+      }
+    }
+  }
+}

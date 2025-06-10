@@ -1,0 +1,60 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PortalBuddy Supabase Plugin",
+    "version": "1.0.0",
+    "description": "Enables authenticated operations in your Supabase project"
+  },
+  "servers": [
+    {
+      "url": "https://wcebawczidhooqpvnsug.supabase.co",
+      "description": "Supabase Project"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "apikey"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/rest/v1/{table}": {
+      "post": {
+        "summary": "Insert a record",
+        "parameters": [
+          {
+            "name": "table",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Insert succeeded"
+          }
+        }
+      }
+    }
+  }
+}
